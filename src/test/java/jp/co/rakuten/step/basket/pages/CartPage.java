@@ -1,5 +1,6 @@
 package jp.co.rakuten.step.basket.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -13,9 +14,9 @@ public class CartPage{
 	@FindBy(how = How.CSS, using = "button[class=\"cart-button checkout new-cart-button \"]")
     private WebElement addToCartButton;
 	
-	public final WebDriver driver;
-	public final WebDriverWait wait;
-	public static String cartPageUrl = "https://basket.step.rakuten.co.jp/rms/mall/bs/cartall/";
+	private final WebDriver driver;
+	private final WebDriverWait wait;
+	private static String cartPageUrl = "https://basket.step.rakuten.co.jp/rms/mall/bs/cartall/";
 	
 	public CartPage(WebDriver driver) {
 		this.driver = driver;
@@ -26,15 +27,17 @@ public class CartPage{
 	public void goToWithItem(String itemUrl) {
 		driver.get(itemUrl);
 		wait.until(ExpectedConditions.elementToBeClickable(addToCartButton));
-		JavascriptExecutor executor = (JavascriptExecutor)driver;
+		JavascriptExecutor executor = (JavascriptExecutor) driver;
 		executor.executeScript("arguments[0].click();", addToCartButton);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[data-shop-id='261122'")));
 	}
 	
 	public void goToWithoutItem() {
 		driver.get(cartPageUrl);
 	}
 	
-	public String getPageTitle(){
-		return driver.getTitle();
-	}	
+	public boolean isTitleOnPage(){
+		System.out.println(driver.getTitle());
+		return "Øâª¤Úªª«ª´".equals(driver.getTitle());
+	}
 }
