@@ -17,7 +17,6 @@ https://sites.google.com/a/chromium.org/chromedriver/
 
 #### Install Java
 $ rpm -ihv /root/jdk-8u181-linux-x64.rpm
-then
 Java version check
 $ java -version
 
@@ -29,8 +28,8 @@ $ yum -y install jenkins
 
 #### To enable Jenkins service
 $ systemctl enable jenkins
-jenkins.service is not a native service, redirecting to /sbin/chkconfig.
-Executing /sbin/chkconfig jenkins on
+> jenkins.service is not a native service, redirecting to /sbin/chkconfig.
+> Executing /sbin/chkconfig jenkins on
 
 #### Jenkins service to start
 $ systemctl start jenkins
@@ -38,20 +37,25 @@ $ systemctl start jenkins
 #### Firewall setting for default Jenkins port
 $ cd /etc/firewalld/services/
 $ cat > jenkins.xml
+```
 <?xml version="1.0" encoding="utf-8"?>
 <service>
   <short>Jenkins</short>
   <description>Jenkins</description>
   <port protocol="tcp" port="8080"/>
 </service>
+```
 $ firewall-cmd --list-services --zone=public --permanent
-ssh dhcpv6-client
+> ssh dhcpv6-client
+
 $ firewall-cmd --add-service=jenkins --zone=public --permanent
-success
+> success
+
 $ firewall-cmd --reload
-success
+> success
+
 $ firewall-cmd --list-services --zone=public --permanent
-ssh dhcpv6-client jenkins
+> ssh dhcpv6-client jenkins
 
 #### Jenkins URL
 http://host:8080
